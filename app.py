@@ -106,7 +106,7 @@ def book_demo():
             #     subject='Demo Booking Confirmation - CloudCademy',
             #     recipients=[email]
             # )
-            user_msg.html = f"""
+            user_msg_html = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
@@ -139,17 +139,17 @@ def book_demo():
                 </body>
             </html>
             """
-           send_email(
-            subject = "Demo Booking Confirmation - CloudMaster",
-            to_email = email,
-            html = user_msg.html
-           ) 
+            send_email(
+                subject = "Demo Booking Confirmation - CloudMaster",
+                to_email = email,
+                html = user_msg_html
+            ) 
             # Send email to admin
             # admin_msg = Message(
             #     subject=f'New Demo Booking - {full_name}',
             #     recipients=[ADMIN_EMAIL]
             # )
-            admin_msg.html = f"""
+            admin_msg_html = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -195,7 +195,7 @@ def book_demo():
             send_email(
                 subject = f"New Demo Booking - {full_name}",
                 to_email = ADMIN_EMAIL,
-                html = admin_msg.html
+                html = admin_msg_html
             )
             
             # Send both emails
@@ -226,5 +226,4 @@ def about():
 
 if __name__ == '__main__':
     app.run()
-
 

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="img" href="{{ url_for('static', filename='img/CloudMaster.png') }}">
+    <title>About Us - CloudCademy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0f0f;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #e8e8e8;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255, 87, 34, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 138, 0, 0.025) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Header */
+        .top-header {
+            position: relative;
+            z-index: 100;
+            background: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 87, 34, 0.12);
+            padding: 1.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-link {
+            text-decoration: none;
+        }
+
+        .cloudmaster-logo {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: #242424;
+            padding: 10px;
+            border: 1px solid rgba(255, 87, 34, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .cloudmaster-logo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 87, 34, 0.4);
+        }
+
+        .info-blocks {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .info-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-block h1 {
+            font-size: 1rem;
+            margin: 0 0 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e8e8e8;
+            font-weight: 600;
+        }
+
+        .info-block h1 i {
+            color: #FF5722;
+            font-size: 1.1em;
+        }
+
+        .info-block small {
+            font-size: 0.9rem;
+            color: #a8a8a8;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: relative;
+            z-index: 99;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 87, 34, 0.08);
+        }
+
+        .navbar a {
+            color: #c8c8c8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            letter-spacing: 0.3px;
+        }
+
+        .navbar a:hover {
+            color: #FF5722;
+            background: rgba(255, 87, 34, 0.08);
+            border-color: rgba(255, 87, 34, 0.15);
+        }
+
+        /* Hero Section */
+        .hero-about {
+            position: relative;
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 87, 34, 0.05) 0%, transparent 100%);
+        }
+
+        .hero-about h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #FF5722;
+            margin-bottom: 1rem;
+        }
+
+        .hero-about p {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Content Section */
+        .content-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .about-card {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 87, 34, 0.12);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 87, 34, 0.25);
+        }
+
+        .about-card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #FF5722 0%, #FF8A50 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-card-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            color: #FF5722;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .about-card p {
+            font-size: 1rem;
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        /* Story Section */
+        .story-section {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            border: 1px solid rgba(255, 87, 34, 0.12);
+        }
+
+        .story-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #FF5722;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-section p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: #242424;
+            border: 1px solid rgba(255, 87, 34, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(255, 87, 34, 0.3);
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #FF5722;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #b8b8b8;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 87, 34, 0.12);
+            margin-top: 4rem;
+        }
+
+        .footer-navbar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-navbar a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-navbar a:hover {
+            color: #FF5722;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 87, 34, 0.1);
+            color: #808080;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .info-blocks {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .info-blocks {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .info-block {
+                align-items: center;
+            }
+            
+            .navbar {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+            
+            .navbar a {
+                font-size: 0.85rem;
+                padding: 0.65rem 1.4rem;
+            }
+
+            .hero-about h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-about p {
+                font-size: 1.1rem;
+            }
+
+            .story-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .story-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-about h1 {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <a href="{{ url_for('index') }}" class="logo-link">
+            <img src="{{ url_for('static', filename='img/CloudMaster.png') }}" class="cloudmaster-logo" alt="CloudCademy Logo">
+        </a>
+        <div class="info-blocks">
+            <div class="info-block">
+                <h1><i class="fas fa-building"></i> Office</h1>
+                <small>Icon Offices, East Ham, E6 2JA</small>
+            </div>
+            <div class="info-block">
+                <h1><i class="fas fa-envelope"></i> Email Us</h1>
+                <small>info.cloudmaster@gmail.com</small>
+            </div>
+            <div class="info-block">
+                <h1><i class="fas fa-phone"></i> Call Us</h1>
+                <small>+44 7777174006</small>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('course') }}">Courses</a>
+        <a href="{{ url_for('book_demo') }}">Book A Demo</a>
+    </nav>
+
+    <div class="hero-success">
+        <h1>Thanks, {{ name }}! ✅</h1>
+        <p style="max-width:720px;margin:12px auto 0; color:#cfcfcf;">Your demo booking has been received. We have sent a confirmation email to you and notified our team. Someone will contact you shortly to schedule the demo.</p>
+        <div class="success-card" style="margin-top:20px;">
+            <p><strong>What happens next</strong></p>
+            <ol style="color:#cfcfcf;margin-top:8px;line-height:1.6">
+                <li>We will review your details and match you with an available instructor.</li>
+                <li>You will receive a confirmation email with date/time options.</li>
+                <li>If needed, we may call the phone number you provided for quick scheduling.</li>
+            </ol>
+            <div class="success-actions">
+                <a class="btn" href="{{ url_for('index') }}">Back to Home</a>
+                <a class="btn" href="{{ url_for('course') }}">View Courses</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <nav class="footer-navbar">
+            <a href="{{ url_for('course') }}">Courses</a>
+            <a href="{{ url_for('book_demo') }}">Book A Demo</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+        </nav>
+        <div class="footer-copyright">
+            &copy; 2025 CloudCademy. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Courses | CloudCademy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="header-flex">
+    <a href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='img/CloudMaster.png') }}" class="cloudmaster-logo" style="float: left;width: 120px;height: 120px;background: rgba(255, 255, 255, 0.5);">
+    </a>
+    <div class="wrapper">
+    <div class="div0">
+        <nav class="navbar-course">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('book_demo') }}">Book A Demo</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+        </nav>
+        
+        </div>
+    </div>
+    </div>
+
+    <div class="newdiv">
+        <h1 class="h">Our Courses</h1>
+    </div>
+
+    <div class="courses-grid">
+        <div class="course-tile">
+            <div class="section-image">
+                <img src="{{ url_for('static', filename='img/AWS-DevOps.png') }}" alt="AWS DevOps">
+            </div>
+            <div class="section-text">
+                <h2>AWS DevOps</h2>
+                <p>Master AWS tools and DevOps practices for modern cloud infrastructure and CI/CD pipelines.</p>
+            </div>
+        </div>
+        <div class="course-tile">
+            <div class="section-image">
+                <img src="{{ url_for('static', filename='img/azure-devops-cover.png') }}" alt="Azure DevOps">
+            </div>
+            <div class="section-text">
+                <h2>Azure DevOps</h2>
+                <p>Learn to automate, deploy, and manage applications using Microsoft Azure DevOps services.</p>
+            </div>
+        </div>
+        <div class="course-tile">
+            <div class="section-image">
+                <img src="{{ url_for('static', filename='img/Data-Engineering.png') }}" alt="Data Engineering">
+            </div>
+            <div class="section-text">
+                <h2>Data Engineering</h2>
+                <p>Build robust data pipelines and master ETL, big data, and analytics on the cloud.</p>
+            </div>
+        </div>
+        <div class="course-tile">
+            <div class="section-image">
+                <img src="{{ url_for('static', filename='img/Full_Stack.png') }}" alt="Full-Stack Engineering">
+            </div>
+            <div class="section-text">
+                <h2>Full-Stack Engineering</h2>
+                <p>Become a versatile developer with skills in both front-end and back-end technologies.</p>
+            </div>
+        </div>
+        <div class="course-tile">
+            <div class="section-image">
+                <img src="{{ url_for('static', filename='img/MS-Dynamics.png') }}" alt="MS Dynamic-365">
+            </div>
+            <div class="section-text">
+                <h2>MS Dynamic-365</h2>
+                <p>Get hands-on with Microsoft Dynamics 365 for business applications and CRM solutions.</p>
+            </div>
+        </div>
+        <!-- Add more course-tile blocks as needed -->
+    </div>
+
+    <footer>
+        <nav class="navbar footer-navbar">
+            <a href="index.html">Home</a>
+            <a href="Book_A_Demo.html">Book A Demo</a>
+            <a href="index2.html">About Us</a>
+        </nav>
+        <div class="footer-copyright">
+            &copy; 2025 CloudCademy. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

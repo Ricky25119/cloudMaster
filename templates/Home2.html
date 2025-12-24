@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="img" href="{{ url_for('static', filename='img/CloudMaster.png') }}">
+    <title>CloudCademy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0f0f;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #e8e8e8;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255, 87, 34, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 138, 0, 0.025) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Header */
+        .top-header {
+            position: relative;
+            z-index: 100;
+            background: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 87, 34, 0.12);
+            padding: 1.5rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cloudmaster-logo {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: #242424;
+            padding: 10px;
+            border: 1px solid rgba(255, 87, 34, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .cloudmaster-logo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 87, 34, 0.4);
+        }
+
+        .info-blocks {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .info-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-block h1 {
+            font-size: 1rem;
+            margin: 0 0 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e8e8e8;
+            font-weight: 600;
+        }
+
+        .info-block h1 i {
+            color: #FF5722;
+            font-size: 1.1em;
+        }
+
+        .info-block small {
+            font-size: 0.9rem;
+            color: #a8a8a8;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: relative;
+            z-index: 99;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 87, 34, 0.08);
+        }
+
+        .navbar a {
+            color: #c8c8c8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            letter-spacing: 0.3px;
+        }
+
+        .navbar a:hover {
+            color: #FF5722;
+            background: rgba(255, 87, 34, 0.08);
+            border-color: rgba(255, 87, 34, 0.15);
+        }
+
+        /* Hero Quote Section */
+        .hero-quote {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            padding: 0 4rem;
+            background-image: url('{{ url_for('static', filename='img/QoutePic.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .hero-quote::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 15, 15, 0.75);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #FF5722;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-content h3 {
+            font-size: 1.3rem;
+            font-style: italic;
+            font-weight: 300;
+            color: #b0b0b0;
+            margin-top: 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .section-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FF5722;
+        }
+
+        /* Tech Stack Scroll */
+        .tech-scroll-container {
+            background: #1a1a1a;
+            padding: 3rem 0;
+            overflow: hidden;
+        }
+
+        .tech-scroll-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: thin;
+            scrollbar-color: #FF5722 #242424;
+        }
+
+        .tech-scroll-grid {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1.5rem;
+            min-width: 1200px;
+            padding: 1rem;
+        }
+
+        .tech-card {
+            background: #242424;
+            border: 1px solid rgba(255, 87, 34, 0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 1.5rem;
+            min-width: 200px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            background: #2a2a2a;
+            border-color: rgba(255, 87, 34, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .tech-card img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .tech-card span {
+            color: #e8e8e8;
+        }
+
+        /* Courses Grid */
+        .courses-section {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .course-tile {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 87, 34, 0.12);
+        }
+
+        .course-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #FF5722;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .course-tile:hover::before {
+            transform: scaleX(1);
+        }
+
+        .course-tile:hover {
+            transform: translateY(-12px);
+            border-color: rgba(255, 87, 34, 0.25);
+        }
+
+        .course-image {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: #242424;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s ease;
+            filter: brightness(0.85) contrast(1.1);
+        }
+
+        .course-tile:hover .course-image img {
+            transform: scale(1.08);
+            filter: brightness(0.95) contrast(1.15);
+        }
+
+        .course-text {
+            padding: 2rem;
+        }
+
+        .course-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #FF5722;
+            margin-bottom: 1rem;
+        }
+
+        .course-text p {
+            font-size: 1rem;
+            color: #a8a8a8;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Company Logos Scroll */
+        .companies-section {
+            background: #1a1a1a;
+            padding: 3rem 0;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 87, 34, 0.08);
+            border-bottom: 1px solid rgba(255, 87, 34, 0.08);
+        }
+
+        .companies-scroll {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 30s linear infinite;
+        }
+
+        .companies-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        .company-logo {
+            background: #242424;
+            padding: 1.5rem;
+            border-radius: 8px;
+            min-width: 200px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 87, 34, 0.1);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .company-logo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 87, 34, 0.25);
+        }
+
+        .company-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0.9);
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            background: #1a1a1a;
+            padding: 4rem 2rem;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-header h5 {
+            color: #FF5722;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .testimonials-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e8e8e8;
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-card {
+            min-width: 100%;
+            background: #242424;
+            border-radius: 12px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 87, 34, 0.12);
+        }
+
+        .testimonial-card i {
+            color: #FF5722;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card h4 {
+            font-size: 1.2rem;
+            color: #e8e8e8;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-card h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FF5722;
+            margin-bottom: 0.3rem;
+        }
+
+        .testimonial-card span {
+            font-size: 0.95rem;
+            color: #989898;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #404040;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .testimonial-dot.active {
+            background: #FF5722;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #b8b8b8;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 87, 34, 0.12);
+        }
+
+        .footer-navbar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-navbar a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-navbar a:hover {
+            color: #FF5722;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 87, 34, 0.1);
+            color: #808080;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .info-blocks { gap: 2rem; }
+            .courses-grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .info-blocks {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .info-block {
+                align-items: center;
+            }
+            
+            .navbar {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+            
+            .navbar a {
+                font-size: 0.85rem;
+                padding: 0.65rem 1.4rem;
+            }
+            
+            .hero-quote {
+                height: 400px;
+                padding: 0 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-quote {
+                height: 350px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h1 {
+                font-size: 2rem;
+            }
+            
+            .testimonials-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <img src="{{ url_for('static', filename='img/CloudMaster.png') }}" class="cloudmaster-logo" alt="CloudCademy Logo">
+        <div class="info-blocks">
+            <div class="info-block">
+                <h1><i class="fas fa-building"></i> Office</h1>
+                <small>Icon Offices, East Ham, E6 2JA</small>
+            </div>
+            <div class="info-block">
+                <h1><i class="fas fa-envelope"></i> Email Us</h1>
+                <small>info.cloudmaster@gmail.com</small>
+            </div>
+            <div class="info-block">
+                <h1><i class="fas fa-phone"></i> Call Us</h1>
+                <small>+44 7777174006</small>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="{{ url_for('course') }}">Courses</a>
+        <a href="{{ url_for('book_demo') }}">Book A Demo</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+    </nav>
+
+    <div class="hero-quote">
+        <div class="hero-content">
+            <h1>Empowering minds.</h1>
+            <h1>Transforming futures.</h1>
+            <h1>One course at a time.</h1>
+            <h3>— Empowering your career through practical learning</h3>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h1>What We'll Teach</h1>
+    </div>
+
+    <div class="tech-scroll-container">
+        <div class="tech-scroll-wrapper">
+            <div class="tech-scroll-grid">
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/linux.jpeg') }}"><span>Linux</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/jenkins.png') }}"><span>Jenkins</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/azure-devops.png') }}"><span>Azure DevOps</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/DataBricks.png') }}"><span>Data Bricks</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/snowflake.png') }}"><span>Snowflake</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/airflow.png') }}"><span>Apache Airflow</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/DB.png') }}"><span>SQL</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/azure.png') }}"><span>Azure</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/python.png') }}"><span>Python</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/AWS.png') }}"><span>AWS</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/Kafka.svg') }}"><span>Kafka</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/docker.png') }}"><span>Docker</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/kubernetes.png') }}"><span>Kubernetes</span></div>
+                <div class="tech-card"><img src="{{ url_for('static', filename='img/DBT.png') }}"><span>DBT</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h1>We Offer</h1>
+    </div>
+
+    <div class="courses-section">
+        <div class="courses-grid">
+            <div class="course-tile">
+                <div class="course-image">
+                    <img src="{{ url_for('static', filename='img/AWS_devops.png') }}" alt="AWS DevOps">
+                </div>
+                <div class="course-text">
+                    <h2>AWS DevOps</h2>
+                    <p>AWS DevOps focuses on implementing DevOps practices using Amazon Web Services, including CI/CD pipelines, infrastructure as code, monitoring, and automation</p>
+                </div>
+            </div>
+
+            <div class="course-tile">
+                <div class="course-image">
+                    <img src="{{ url_for('static', filename='img/Azure_devops_hd.png') }}" alt="Azure DevOps">
+                </div>
+                <div class="course-text">
+                    <h2>Azure DevOps</h2>
+                    <p>Azure DevOps enables teams to plan, build, test, and deploy applications using Microsoft Azure tools such as Azure Repos, Pipelines, Boards, and Artifacts</p>
+                </div>
+            </div>
+
+            <div class="course-tile">
+                <div class="course-image">
+                    <img src="{{ url_for('static', filename='img/DE.png') }}" alt="Data Engineering">
+                </div>
+                <div class="course-text">
+                    <h2>Data Engineering</h2>
+                    <p>Data Engineering involves designing, building, and maintaining data pipelines and architectures to process, store, and analyze large-scale data efficiently.</p>
+                </div>
+            </div>
+
+            <div class="course-tile">
+                <div class="course-image">
+                    <img src="{{ url_for('static', filename='img/AIML.jpg') }}" alt="AI/ML Engineering">
+                </div>
+                <div class="course-text">
+                    <h2>AI/ML Engineering</h2>
+                    <p>AI/ML Engineering focuses on building intelligent systems using machine learning algorithms, data modeling, deep learning, and deploying AI solutions at scale.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h1>Our Students Got Placed At</h1>
+    </div>
+
+    <div class="companies-section">
+        <div class="companies-scroll">
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/rwe.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/nhs.jpeg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Lloyds-Bank-Logo.jpg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Ansys.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Graphnet-Health.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Allianz.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Bighand.webp') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/LSEG.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/AA.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Turintech.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Macmillan.jpeg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Janus-Henderson.webp') }}"></div>
+            <!-- Duplicate for seamless scroll -->
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/rwe.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/nhs.jpeg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Lloyds-Bank-Logo.jpg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Ansys.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Graphnet-Health.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Allianz.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Bighand.webp') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/LSEG.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/AA.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Turintech.png') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Macmillan.jpeg') }}"></div>
+            <div class="company-logo"><img src="{{ url_for('static', filename='img/Janus-Henderson.webp') }}"></div>
+        </div>
+    </div>
+
+    <div class="testimonials-section">
+        <div class="testimonials-header">
+            <h5>Testimonial</h5>
+            <h1>What Say Our Students</h1>
+        </div>
+        <div class="testimonials-carousel">
+            <div class="testimonials-track" id="testimonialsTrack">
+                <div class="testimonial-card">
+                    <i class="fa fa-3x fa-quote-left"></i>
+                    <h4>CloudCademy gave me the confidence and skills to land my dream job in tech!</h4>
+                    <h5>Anvesh</h5>
+                    <span>DevOps Engineer</span>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fa fa-3x fa-quote-left"></i>
+                    <h4>The hands-on approach and real-world projects made all the difference.</h4>
+                    <h5>Prashanth</h5>
+                    <span>Data Engineer</span>
+                </div>
+                <div class="testimonial-card">
+                    <i class="fa fa-3x fa-quote-left"></i>
+                    <h4>Supportive mentors and a great community. Highly recommended!</h4>
+                    <h5>Sarath</h5>
+                    <span>DevOps Engineer</span>
+                </div>
+            </div>
+            <div class="testimonial-dots" id="testimonialDots"></div>
+        </div>
+    </div>
+
+    <footer>
+        <nav class="footer-navbar">
+            <a href="{{ url_for('course') }}">Courses</a>
+            <a href="{{ url_for('book_demo') }}">Book A Demo</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+        </nav>
+        <div class="footer-copyright">
+            &copy; 2025 CloudCademy. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Testimonial carousel
+        const track = document.getElementById('testimonialsTrack');
+        const dotsContainer = document.getElementById('testimonialDots');
+        const cards = track.children;
+        let currentIndex = 0;
+
+        // Create dots
+        for (let i = 0; i < cards.length; i++) {
+            const dot = document.createElement('button');
+            dot.classList.add('testimonial-dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.children;
+
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', i === currentIndex);
+            }
+        }
+
+        // Auto-rotate
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            goToSlide(currentIndex);
+        }, 5000);
+    </script>
+</body>
+</html>

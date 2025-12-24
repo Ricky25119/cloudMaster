@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Booking Received</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div style="max-width:640px;margin:80px auto;padding:24px;background:#fff;border-radius:8px;text-align:center;">
+    <h1>Thanks, {{ name }}! ✅</h1>
+    <p>Your demo booking for <strong>{{ course }}</strong> has been received.</p>
+    <p>We have sent a confirmation email and will contact you shortly.</p>
+    <a href="{{ url_for('index') }}" style="display:inline-block;margin-top:20px;padding:10px 16px;background:#ee6627;color:#fff;border-radius:6px;text-decoration:none;">Back to Home</a>
+  </div>
+</body>
+</html>

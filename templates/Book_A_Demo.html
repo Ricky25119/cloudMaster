@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book A Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script type="text/javascript">
+      (function(){
+          emailjs.init({
+            publicKey: "dFd2G_vqSYiKGP7mj",
+          });
+      })();
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="header-flex">
+    <a href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='img/CloudMaster.png') }}" class="cloudmaster-logo" style="float: left;width: 120px;height: 120px;background: rgba(255, 255, 255, 0.5);">
+    </a>
+    <div class="wrapper">
+    <div class="div0">
+        <nav class="navbar-course">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('course') }}">Courses</a>
+            <a href="{{ url_for('about') }}">About Us</a>
+        </nav>
+        
+        </div>
+    </div>
+    </div>
+    <h1 style="text-align:center;">Book a Demo</h1>
+    <div class="modal-content" style="max-width:400px;margin:40px auto;">
+        <form id="demoForm" onsubmit="return sendMail(event);">
+            <label for="fullName">Full Name*</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="phone">Phone Number*</label>
+            <input type="tel" id="phone" name="phone" required pattern="[0-9+\-\s]{7,}">
+
+            <label for="course">Course Interested*</label>
+            <input type="text" id="course" name="course" required>
+
+            <label for="email">Email*</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="visaStatus">Visa Status*</label>
+            <input type="text" id="visaStatus" name="visaStatus" required>
+
+            <label for="expiry">Expiry Date of Visa*</label>
+            <input type="date" id="expiry" name="expiry" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <footer>
+          <nav class="navbar footer-navbar">
+              <a href="{{ url_for('course') }}">Courses</a>
+              <a href="Book_A_Demo.html">Book A Demo</a>
+              <a href="index2.html">About Us</a>
+          </nav>
+          <div class="footer-copyright">
+              &copy; 2025 CloudCademy. All rights reserved.
+          </div>
+      </footer>
+
+</body>
+</html>

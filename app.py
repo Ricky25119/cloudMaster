@@ -12,9 +12,9 @@ app.config['SECRET_KEY'] = 'your-secret-key-here-change-this'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'yaseenbasha2001@gmail.com'  # Change this
-app.config['MAIL_PASSWORD'] = 'thum rtkx gkiy ljua'      # Change this (use App Password)
-app.config['MAIL_DEFAULT_SENDER'] = 'yaseenbasha2001@gmail.com'  # Change this
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # Change this
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')      # Change this (use App Password)
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # Change this
 
 mail = Mail(app)
 
@@ -201,4 +201,5 @@ def about():
 
 if __name__ == '__main__':
     app.run(debug=False)
+
 

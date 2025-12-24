@@ -1,24 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mail import Mail, Message
-from threading import Thread 
 import os
 from datetime import datetime
+import resend
 
 app = Flask(__name__)
 
 # Secret key for flash messages
 app.config['SECRET_KEY'] = 'your-secret-key-here-change-this'
-
+resend.api_key = os.environ.get("RESEND_API_KEY")
 # Flask-Mail Configuration
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # Change this
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')      # Change this (use App Password)
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # Change this
-app.config['MAIL_TIMEOUT'] = 10 
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 587
+# app.config['MAIL_USE_TLS'] = True
+# app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # Change this
+# app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')      # Change this (use App Password)
+# app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # Change this
+# app.config['MAIL_TIMEOUT'] = 10 
 
-mail = Mail(app)
+# mail = Mail(app)
 
 # Admin email address
 ADMIN_EMAIL = 'aarizmohammad92@gmail.com'
@@ -67,12 +66,16 @@ testimonials = [
         "text": "Supportive mentors and a great community. Highly recommended!"
     }
 ]
-def send_async_email(app, msg):
-    with app.app_context():
-        try:
-            mail.send(msg)
-        except Exception as e:
-            app.logger.error(f"Email send failes: {e}")
+def send_email(subject, to_email, html):
+    try:
+        resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": to_email,
+            "subject": subject,
+            "html": html
+        })
+    except Exception as e:
+        app.logger.error(f"Resend email failed: {e}")
         
 
 @app.route('/')
@@ -99,10 +102,10 @@ def book_demo():
             expiry_date = datetime.strptime(expiry, '%Y-%m-%d').strftime('%B %d, %Y')
             
             # Send email to user
-            user_msg = Message(
-                subject='Demo Booking Confirmation - CloudCademy',
-                recipients=[email]
-            )
+            # user_msg = Message(
+            #     subject='Demo Booking Confirmation - CloudCademy',
+            #     recipients=[email]
+            # )
             user_msg.html = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -136,12 +139,16 @@ def book_demo():
                 </body>
             </html>
             """
-            
+           send_email(
+            subject = "Demo Booking Confirmation - CloudMaster",
+            to_email = email,
+            html = user_msg.html
+           ) 
             # Send email to admin
-            admin_msg = Message(
-                subject=f'New Demo Booking - {full_name}',
-                recipients=[ADMIN_EMAIL]
-            )
+            # admin_msg = Message(
+            #     subject=f'New Demo Booking - {full_name}',
+            #     recipients=[ADMIN_EMAIL]
+            # )
             admin_msg.html = f"""
             <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -185,17 +192,24 @@ def book_demo():
                 </body>
             </html>
             """
+            send_email(
+                subject = f"New Demo Booking - {full_name}",
+                to_email = ADMIN_EMAIL,
+                html = admin_msg.html
+            )
             
             # Send both emails
            # mail.send(user_msg)
-            Thread(target=send_async_email, args=(app, user_msg)).start()
-            Thread(target=send_async_email, args=(app, admin_msg)).start()
+            # Thread(target=send_async_email, args=(app, user_msg)).start()
+            # Thread(target=send_async_email, args=(app, admin_msg)).start()
             #mail.send(admin_msg)
+            
             
             # Redirect to success page
             return render_template('Sucess.html', name=full_name)
             
         except Exception as e:
+            app.logger.error(f"Booking failed: {e}")
             flash(f'Error sending email: {str(e)}', 'error')
             return redirect(url_for('book_demo'))
     
@@ -211,6 +225,6 @@ def about():
     return render_template('About_us.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run()
 
 

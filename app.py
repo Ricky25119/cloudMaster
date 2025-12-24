@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mail import Mail, Message
+from threading import Thread 
 import os
 from datetime import datetime
 
@@ -15,6 +16,7 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # Change this
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')      # Change this (use App Password)
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # Change this
+app.config['MAIL_TIMEOUT'] = 10 
 
 mail = Mail(app)
 
@@ -65,6 +67,9 @@ testimonials = [
         "text": "Supportive mentors and a great community. Highly recommended!"
     }
 ]
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
 
 @app.route('/')
 def index():
@@ -178,8 +183,10 @@ def book_demo():
             """
             
             # Send both emails
-            mail.send(user_msg)
-            mail.send(admin_msg)
+           # mail.send(user_msg)
+            Thread(target=send_async_email, args=(app, user_msg)).start()
+            Thread(target=send_async_email, args=(app, admin_msg)).start()
+            #mail.send(admin_msg)
             
             # Redirect to success page
             return render_template('Sucess.html', name=full_name)
